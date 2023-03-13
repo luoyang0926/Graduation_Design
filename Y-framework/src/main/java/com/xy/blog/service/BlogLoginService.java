@@ -7,4 +7,6 @@ public interface BlogLoginService {
     ResponseResult  login(SysUser sysUser);
 
     ResponseResult logout();
+
+
 }

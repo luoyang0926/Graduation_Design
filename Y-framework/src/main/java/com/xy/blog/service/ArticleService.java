@@ -24,4 +24,6 @@ public interface ArticleService extends IService<Article> {
     ResponseResult<PageVo> pageArticleList(int pageNum, int pageSize, ArticleListDto articleListDto);
 
     ResponseResult getArticle(Long id);
+
+    ResponseResult utDArticleList();
 }

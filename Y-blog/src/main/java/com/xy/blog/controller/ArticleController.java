@@ -22,6 +22,11 @@ public class ArticleController {
         return articleService.hotArticleList();
     }
 
+    @GetMapping("/utDArticleList")
+    public ResponseResult utdArticleList() {
+        return articleService.utDArticleList();
+    }
+
     @GetMapping("/articleList")
     public ResponseResult articleList(Integer pageNum,Integer pageSize,Long categoryId){
         return articleService.articleList(pageNum,pageSize,categoryId);

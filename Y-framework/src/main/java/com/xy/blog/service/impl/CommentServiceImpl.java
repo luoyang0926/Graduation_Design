@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xy.blog.entity.Comment;
+import com.xy.blog.entity.SysUser;
 import com.xy.blog.enums.AppHttpCodeEnum;
 import com.xy.blog.execption.SystemException;
 import com.xy.blog.mapper.CommentMapper;
@@ -14,6 +15,8 @@ import com.xy.blog.utils.ResponseResult;
 import com.xy.blog.utils.SystemConstants;
 import com.xy.blog.vo.CommentVo;
 import com.xy.blog.vo.PageVo;
+import io.swagger.models.auth.In;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -33,6 +36,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     private CommentMapper commentMapper;
     @Autowired
     private SysUserService userService;
+    @Autowired
+    private CommentServiceImpl commentService;
 
     @Override
     public ResponseResult getCommentList(String commentType, Integer pageNum, Integer pageSize, Long articleId) {
@@ -46,19 +51,37 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         queryWrapper.eq(Comment::getRootId, -1);
         //评论类型
         queryWrapper.eq(Comment::getType,commentType);
-
+        queryWrapper.orderByDesc(Comment::getCreateTime);
         Page<Comment> page = new Page(pageNum, pageSize);
         page(page, queryWrapper);
+
+
         List<Comment> commentList = page.getRecords();
         List<CommentVo> commentVos = toCommentVoList(commentList);
+
+        Long count = commentMapper.selectCommentCount();
+
         //查询所有根评论对应的子评论集合，并且赋值给对应的属性
         for (CommentVo commentVo : commentVos) {
             //查询对应的子评论
             List<CommentVo> children = getChildren(commentVo.getId());
+
+            //给rootId=-1的avatarUrl赋值
+            SysUser user = userService.getById(commentVo.getCreateBy());
+            commentVo.setAvatarUrl(user.getAvatar());
+
+            //给children中的头像赋值
+            for (CommentVo commentVo1 : children) {
+                Long userId = commentVo1.getCreateBy();
+                SysUser sysUser = userService.getById(userId);
+                commentVo1.setAvatarUrl(sysUser.getAvatar());
+            }
             //赋值
             commentVo.setChildren(children);
+            System.out.println("++++++++++++++++++"+commentVos);
         }
-        return ResponseResult.okResult(new PageVo(commentVos, page.getTotal()));
+        return ResponseResult.okResult(new PageVo(commentVos, count));
+
 
     }
 
@@ -72,7 +95,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
         LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Comment::getRootId,id);
-        queryWrapper.orderByAsc(Comment::getCreateTime);
+        queryWrapper.orderByDesc(Comment::getCreateTime);
         List<Comment> comments = list(queryWrapper);
 
         List<CommentVo> commentVos = toCommentVoList(comments);
@@ -102,6 +125,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
         }
         this.save(comment);
+
         return ResponseResult.okResult();
     }
 

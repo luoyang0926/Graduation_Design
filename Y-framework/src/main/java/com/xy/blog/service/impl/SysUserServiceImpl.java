@@ -43,9 +43,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private RoleMapper roleMapper;
 
     @Override
-    public ResponseResult userInfo() {
+    public ResponseResult userInfo(Long userId) {
 
-        Long userId = SecurityUtils.getUserId();
+       // Long userId = SecurityUtils.getUserId();
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUser::getId, userId);
         SysUser sysUser = userMapper.selectOne(queryWrapper);
@@ -65,6 +65,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private PasswordEncoder passwordEncoder;
     @Override
     public ResponseResult register(SysUser user) {
+        System.out.println("??????????????????"+user);
         //对数据进行非空判断
         if(!StringUtils.hasText(user.getUserName())){
             throw new SystemException(AppHttpCodeEnum.USERNAME_NOT_NULL);
@@ -72,19 +73,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if(!StringUtils.hasText(user.getPassword())){
             throw new SystemException(AppHttpCodeEnum.PASSWORD_NOT_NULL);
         }
-        if(!StringUtils.hasText(user.getEmail())){
+        /*if(!StringUtils.hasText(user.getEmail())){
             throw new SystemException(AppHttpCodeEnum.EMAIL_NOT_NULL);
-        }
-        if(!StringUtils.hasText(user.getNickName())){
+        }*/
+        /*if(!StringUtils.hasText(user.getNickName())){
             throw new SystemException(AppHttpCodeEnum.NICKNAME_NOT_NULL);
-        }
+        }*/
         //对数据进行是否存在的判断
         if(userNameExist(user.getUserName())){
             throw new SystemException(AppHttpCodeEnum.USERNAME_EXIST);
         }
-        if(nickNameExist(user.getNickName())){
+       /* if(nickNameExist(user.getNickName())){
             throw new SystemException(AppHttpCodeEnum.NICKNAME_EXIST);
-        }
+        }*/
         //...
         //对密码进行加密
         String encodePassword = passwordEncoder.encode(user.getPassword());

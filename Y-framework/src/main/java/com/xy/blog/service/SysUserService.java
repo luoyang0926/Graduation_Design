@@ -16,7 +16,7 @@ import com.xy.blog.vo.UpdateUserDto;
  */
 public interface SysUserService extends IService<SysUser> {
 
-    ResponseResult userInfo();
+    ResponseResult userInfo(Long userId);
 
     ResponseResult updateUserInfo(SysUser user);
 

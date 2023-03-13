@@ -57,7 +57,6 @@ public class LoginController {
         SysUser sysUser = loginUser.getSysUser();
         UserInfoVo userInfoVo = BeanCopyUtils.copyBean(sysUser, UserInfoVo.class);
         //封装数据返回
-
         AdminUserInfoVo adminUserInfoVo = new AdminUserInfoVo(perms, roleKeyList, userInfoVo);
         return ResponseResult.okResult(adminUserInfoVo);
 

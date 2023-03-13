@@ -10,7 +10,12 @@
         from sg_comment
         where article_id = #{article_id} and type=0
         order by create_time desc limit #{pageNum}, #{pageSize};
+    </select>
 
+    <select id="selectCommentCount" resultType="java.lang.Long">
+        select count(*)
+        from sg_comment
+        where type = 0;
 
     </select>
 </mapper>

@@ -15,8 +15,8 @@ public class UserController {
     private SysUserService userService;
 
     @GetMapping("/userInfo")
-    public ResponseResult userInfo(){
-        return userService.userInfo();
+    public ResponseResult userInfo(@RequestParam("userId") Long userId){
+        return userService.userInfo(userId);
     }
 
     @PutMapping("/userInfo")

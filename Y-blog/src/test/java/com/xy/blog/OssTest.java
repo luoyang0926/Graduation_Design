@@ -23,7 +23,7 @@ import java.util.UUID;
 //@ConfigurationProperties(prefix = "oss")
 public class OssTest {
 
-    private String accessKey;
+    /*private String accessKey;
     private String secretKey;
     private String bucket;
 
@@ -37,7 +37,7 @@ public class OssTest {
 
     public void setBucket(String bucket) {
         this.bucket = bucket;
-    }
+    }*/
 
     @Test
     public void testOss() {
@@ -47,9 +47,9 @@ public class OssTest {
 
         UploadManager uploadManager = new UploadManager(cfg);
         //...生成上传凭证，然后准备上传
-//        String accessKey = "your access key";
-//        String secretKey = "your secret key";
-//        String bucket = "sg-blog";
+        String accessKey = "NAy13DAV_oz8k8oIWP8L6r9SYW_jwVvX2h69qvhi";
+        String secretKey = "jfetle7Su3ZQByQ8M1KRtHzSgRgIm5aBDNh55Kng";
+        String bucket = "wscurry";
 
         //默认不指定key的情况下，以文件内容的hash值作为文件名
         String key = "2022/xy.png";
@@ -59,7 +59,7 @@ public class OssTest {
 //            ByteArrayInputStream byteInputStream=new ByteArrayInputStream(uploadBytes);
 
 
-            InputStream inputStream = new FileInputStream("C:\\Users\\dell\\Desktop\\img01.jpg");
+            InputStream inputStream = new FileInputStream("C:\\Users\\dell\\Desktop\\2.jpg");
             Auth auth = Auth.create(accessKey, secretKey);
             String upToken = auth.uploadToken(bucket);
 
@@ -69,6 +69,7 @@ public class OssTest {
                 DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
                 System.out.println(putRet.key);
                 System.out.println(putRet.hash);
+                System.out.println("========>OK");
             } catch (QiniuException ex) {
                 Response r = ex.response;
                 System.err.println(r.toString());

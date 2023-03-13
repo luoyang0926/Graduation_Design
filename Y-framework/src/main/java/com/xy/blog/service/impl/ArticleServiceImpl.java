@@ -22,7 +22,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -50,7 +54,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         Page<Article> page = new Page(1, 10);
         page(page, queryWrapper);
         List<Article> articles= page.getRecords();
-
         List<HotArticleVo> articleVos = new ArrayList<>();
         for (Article article : articles) {
             HotArticleVo vo = new HotArticleVo();
@@ -59,6 +62,23 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
         return ResponseResult.okResult(articleVos);
     }
+    @Override
+    public ResponseResult utDArticleList() {
+        LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Article::getStatus, SystemConstants.ARTICLE_STATUS_NORMAL);
+        queryWrapper.orderByDesc(Article::getCreateTime);
+        Page<Article> page = new Page<>(1, 5);
+        page(page, queryWrapper);
+        List<Article> records = page.getRecords();
+        List<UtdArticleVo> articleVos = new ArrayList<>();
+        for (Article article : records) {
+            UtdArticleVo vo = new UtdArticleVo();
+            BeanUtils.copyProperties(article,vo);
+            articleVos.add(vo);
+        }
+        return ResponseResult.okResult(articleVos);
+    }
+
 
     @Override
     public ResponseResult   articleList(Integer pageNum, Integer pageSize, Long categoryId) {
@@ -174,5 +194,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         AddArticleDto addArticleDto = BeanCopyUtils.copyBean(article, AddArticleDto.class);
         return ResponseResult.okResult(addArticleDto);
     }
+
+
+
 }
 
