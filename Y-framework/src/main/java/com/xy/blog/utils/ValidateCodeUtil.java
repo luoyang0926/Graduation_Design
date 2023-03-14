@@ -21,7 +21,7 @@ public class ValidateCodeUtil {
     private int randomStrNum = 4; //验证码字符个数
 
     private String randomString = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWSYZ";
-    private final String sessionKey = "JCCODE";
+    private final String sessionKey = "XYCODE";
 
     //字体的设置
     private Font getFont() {
@@ -72,7 +72,7 @@ public class ValidateCodeUtil {
 
     //生成随机图片
     public void getRandomCodeImage(HttpServletRequest request, HttpServletResponse response){
-        HttpSession session = request.getSession();
+        //HttpSession session = request.getSession();
         // BufferedImage类是具有缓冲区的Image类,Image类是用于描述图像信息的类
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();
@@ -91,9 +91,12 @@ public class ValidateCodeUtil {
         System.out.println("随机字符："+randomStr);
         g.dispose();
         //移除之前的session中的验证码信息
-        session.removeAttribute(sessionKey);
+        request.getServletContext().removeAttribute(sessionKey);
+        //session.removeAttribute(sessionKey);
         //重新将验证码放入session
-        session.setAttribute(sessionKey, randomStr);
+        request.getServletContext().setAttribute(sessionKey,randomStr);
+        //session.setAttribute(sessionKey, randomStr);
+        System.out.println("??????????????"+request.getServletContext().getAttribute(sessionKey));
         try {
             //  将图片以png格式返回,返回的是图片
             ImageIO.write(image, "PNG", response.getOutputStream());
@@ -128,8 +131,11 @@ public class ValidateCodeUtil {
         }
         System.out.println("随机字符："+randomStr);
         g.dispose();
-        session.removeAttribute(sessionKey);
-        session.setAttribute(sessionKey, randomStr);
+        //移除之前的session中的验证码信息
+        request.getServletContext().removeAttribute(sessionKey);
+        //重新将验证码放入session
+        request.getServletContext().setAttribute(sessionKey,randomStr);
+        System.out.println("??????????????"+request.getServletContext().getAttribute(sessionKey));
         String base64String = "";
         try {
             //  直接返回图片

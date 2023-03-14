@@ -7,6 +7,7 @@ import com.xy.blog.mapper.SysUserMapper;
 import com.xy.blog.service.BlogLoginService;
 import com.xy.blog.utils.*;
 import com.xy.blog.vo.BlogUserLoginVo;
+import com.xy.blog.vo.LoginUserVo;
 import com.xy.blog.vo.UserInfoVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +27,15 @@ public class BlogLoginServiceImpl implements BlogLoginService {
     @Autowired
     private RedisCache redisCache;
     @Override
-    public ResponseResult   login(SysUser sysUser) {
+    public ResponseResult   login(LoginUserVo userVo) {
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(sysUser.getUserName(), sysUser.getPassword());
+                new UsernamePasswordAuthenticationToken(userVo.getUsername(), userVo.getPassword());
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         //判断是否认证通过
         if (Objects.isNull(authenticate)) {
             throw new RuntimeException("用户名或密码错误");
         }
+
         //获取userid,生成token
         LoginUser user=(LoginUser) authenticate.getPrincipal();
         String id = user.getSysUser().getId().toString();

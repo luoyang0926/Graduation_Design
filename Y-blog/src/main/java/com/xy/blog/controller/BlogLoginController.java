@@ -7,6 +7,7 @@ import com.xy.blog.execption.SystemException;
 import com.xy.blog.service.BlogLoginService;
 import com.xy.blog.utils.ResponseResult;
 import com.xy.blog.utils.ValidateCodeUtil;
+import com.xy.blog.vo.LoginUserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +26,20 @@ public class BlogLoginController {
     private BlogLoginService loginService;
 
     @PostMapping("/login")
-    public ResponseResult login(@RequestBody SysUser sysUser) {
+    public ResponseResult login(@RequestBody LoginUserVo userVo,HttpServletRequest httpServletRequest) {
 
-        if (!StringUtils.hasText(sysUser.getUserName())) {
+        if (!StringUtils.hasText(userVo.getUsername())) {
             throw new SystemException(AppHttpCodeEnum.REQUIRE_USERNAME);
         }
-        return loginService.login(sysUser);
+            //toLowerCase() 不区分大小写进行验证码校验
+            String sessionCode= String.valueOf(httpServletRequest.getServletContext().getAttribute("XYCODE")).toLowerCase();
+            System.out.println("session里的验证码："+sessionCode);
+            String receivedCode=userVo.getCaptcha().toLowerCase();
+            System.out.println("用户的验证码："+receivedCode);
+        if (!receivedCode.equals(sessionCode)) {
+           throw  new SystemException(AppHttpCodeEnum.CODE_FALSE);
+        }
+        return loginService.login(userVo);
     }
 
     @PostMapping("/logout")
@@ -53,7 +62,7 @@ public class BlogLoginController {
             e.printStackTrace();
         }
     }*/
-   // 验证码校验
+/*   // 验证码校验
     @GetMapping("/api/user/login/account")
     public boolean getCheckCaptcha(@RequestParam("captcha") String captcha, HttpSession session) {
 
@@ -70,7 +79,7 @@ public class BlogLoginController {
             return false;
         }
 
-    }
+    }*/
     // 生成验证码,返回的是 base64
     @GetMapping("/api/user/captchaImage")
     public Object getCaptchaBase64(HttpServletRequest request, HttpServletResponse response) {
@@ -88,7 +97,7 @@ public class BlogLoginController {
             result.put("url", "data:image/png;base64," + base64String);
            // result.put("message", "created successfull");
             //http://tool.chinaz.com/tools/imgtobase/  base64直接转为图片网站
-            System.out.println("结果：" + result.get("url"));
+            System.out.println("结果:" + result.get("url"));
             captcha.setCaptcha(base64String);
             String uuid = UUID.randomUUID().toString().replace("-", "");
             captcha.setUuid(uuid);
