@@ -125,6 +125,15 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             throw new SystemException(AppHttpCodeEnum.CONTENT_NOT_NULL);
         }
         this.save(comment);
+        LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Comment::getContent, comment.getContent());
+        Comment comment1 = commentMapper.selectOne(queryWrapper);
+        String createBy= Long.toString(comment1.getCreateBy());
+        if (createBy.equals("-1")) {
+            commentMapper.delete(queryWrapper);
+            return ResponseResult.errorResult(AppHttpCodeEnum.NEED_LOGIN);
+        }
+
 
         return ResponseResult.okResult();
     }

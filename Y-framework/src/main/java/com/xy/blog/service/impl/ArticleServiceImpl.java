@@ -160,6 +160,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     @Transactional
     public ResponseResult add(AddArticleDto articleDto) {
+        if (StringUtils.isEmpty(articleDto.getTitle())) {
+            return ResponseResult.errorResult(444, "请输入标题");
+        }
+
+        if (StringUtils.isEmpty(articleDto.getCategoryId())) {
+            return ResponseResult.errorResult(444, "请选择分类");
+        }
+
         //添加 博客
         Article article = BeanCopyUtils.copyBean(articleDto, Article.class);
         this.save(article);
@@ -171,7 +179,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
         //添加 博客和标签的关联
         articleTagService.saveBatch(articleTags);
-        return ResponseResult.okResult();
+        return ResponseResult.okResult("发布成功");
     }
 
     @Override
