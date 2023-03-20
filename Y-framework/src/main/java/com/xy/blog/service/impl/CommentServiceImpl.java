@@ -59,7 +59,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         List<Comment> commentList = page.getRecords();
         List<CommentVo> commentVos = toCommentVoList(commentList);
 
-        Long count = commentMapper.selectCommentCount();
+        Long count = commentMapper.selectCommentCount(articleId);
 
         //查询所有根评论对应的子评论集合，并且赋值给对应的属性
         for (CommentVo commentVo : commentVos) {
