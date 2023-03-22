@@ -1,5 +1,6 @@
 package com.xy.blog.vo;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,9 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BlogUserLoginVo {
+public class GetTotalView {
 
-    private String token;
-    private UserInfoVo userInfo;
-    private Long  articleTotal;
+    private Integer totalView;
 }

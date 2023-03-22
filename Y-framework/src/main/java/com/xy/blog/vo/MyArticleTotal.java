@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BlogUserLoginVo {
+public class MyArticleTotal {
 
-    private String token;
-    private UserInfoVo userInfo;
-    private Long  articleTotal;
+    private Integer myArticleTotal;
 }

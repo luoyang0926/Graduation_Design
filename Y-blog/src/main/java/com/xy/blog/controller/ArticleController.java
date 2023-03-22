@@ -5,6 +5,8 @@ import com.xy.blog.utils.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/article")
 public class ArticleController {
@@ -28,8 +30,8 @@ public class ArticleController {
     }
 
     @GetMapping("/articleList")
-    public ResponseResult articleList(Integer pageNum,Integer pageSize,Long categoryId){
-        return articleService.articleList(pageNum,pageSize,categoryId);
+    public ResponseResult articleList(Integer pageNum, Integer pageSize, Long categoryId) {
+        return articleService.articleList(pageNum, pageSize, categoryId);
     }
 
     @GetMapping("/{id}")
@@ -38,7 +40,19 @@ public class ArticleController {
     }
 
     @PutMapping("/updateViewCount/{id}")
-    public ResponseResult updateViewCount(@PathVariable("id") Long articleId ) {
+    public ResponseResult updateViewCount(@PathVariable("id") Long articleId) {
         return articleService.updateViewCount(articleId);
+    }
+
+    @GetMapping("/getMyArticleTotal")
+    public ResponseResult getMyArticleTotal(HttpServletRequest request) {
+
+        return articleService.getMyArticleTotal(request);
+    }
+
+    @GetMapping("/getTotalView")
+    public ResponseResult getTotalView(HttpServletRequest request) {
+        return articleService.getTotalView(request);
+
     }
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xy.blog.entity.LoginUser;
 import com.xy.blog.entity.SysUser;
+import com.xy.blog.mapper.ArticleMapper;
 import com.xy.blog.mapper.SysUserMapper;
 import com.xy.blog.service.SendMailService;
 import com.xy.blog.utils.BeanCopyUtils;
@@ -34,9 +35,7 @@ public class SendMailServiceImpl extends ServiceImpl<SysUserMapper, SysUser> imp
     @Autowired
     private RedisCache redisCache;
     @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private ArticleMapper articleMapper;
     @Override
     public ResponseResult loginByEmail(String email) {
         LambdaQueryWrapper<SysUser> queryWrapper=new LambdaQueryWrapper<>();
@@ -64,8 +63,9 @@ public class SendMailServiceImpl extends ServiceImpl<SysUserMapper, SysUser> imp
         //System.out.println("=================>"+ SecurityUtils.getLoginUser());
 
         //把token和userInfo封装起来 返回
+        Long articleCount = articleMapper.getArticleCount();
         UserInfoVo userInfoVo = BeanCopyUtils.copyBean(user.getSysUser(), UserInfoVo.class);
-        BlogUserLoginVo vo = new BlogUserLoginVo(jwt, userInfoVo);
+        BlogUserLoginVo vo = new BlogUserLoginVo(jwt, userInfoVo,articleCount);
         return ResponseResult.okResult(vo);
     }
 }

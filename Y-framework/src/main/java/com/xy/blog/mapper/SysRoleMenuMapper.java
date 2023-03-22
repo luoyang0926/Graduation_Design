@@ -2,6 +2,7 @@ package com.xy.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xy.blog.entity.SysRoleMenu;
+import org.springframework.stereotype.Repository;
 
 
 /**
@@ -10,6 +11,7 @@ import com.xy.blog.entity.SysRoleMenu;
  * @author makejava
  * @since 2022-12-13 16:37:07
  */
+@Repository
 public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
 
 }

@@ -2,6 +2,7 @@ package com.xy.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xy.blog.entity.UserRole;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * @author makejava
  * @since 2022-12-02 18:03:49
  */
+@Repository
 public interface UserRoleMapper extends BaseMapper<UserRole> {
 
     List<String> selectRoleKeyByUserId(Long id);

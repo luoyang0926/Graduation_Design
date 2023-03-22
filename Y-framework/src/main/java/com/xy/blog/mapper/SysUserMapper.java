@@ -3,6 +3,7 @@ package com.xy.blog.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xy.blog.entity.SysUser;
 import com.xy.blog.vo.AddUserDto;
+import org.springframework.stereotype.Repository;
 
 
 /**
@@ -11,6 +12,7 @@ import com.xy.blog.vo.AddUserDto;
  * @author makejava
  * @since 2022-11-23 10:57:06
  */
+@Repository
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
     void insertUser(AddUserDto userDto);

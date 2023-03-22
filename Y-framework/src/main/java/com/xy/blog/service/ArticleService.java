@@ -7,6 +7,8 @@ import com.xy.blog.vo.AddArticleDto;
 import com.xy.blog.vo.ArticleListDto;
 import com.xy.blog.vo.PageVo;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface ArticleService extends IService<Article> {
     ResponseResult hotArticleList();
 
@@ -26,4 +28,8 @@ public interface ArticleService extends IService<Article> {
     ResponseResult getArticle(Long id);
 
     ResponseResult utDArticleList();
+
+    ResponseResult getMyArticleTotal(HttpServletRequest request);
+
+    ResponseResult getTotalView(HttpServletRequest request);
 }
