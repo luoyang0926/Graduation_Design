@@ -30,6 +30,6 @@
     </select>
 
     <select id="getTotalView" resultType="java.lang.Integer">
-        SELECT sum(view_count) FROM `sg_article` where `status`=0 and del_flag=0 and create_by=#{userId};
+        SELECT IFNULL(sum(view_count),0) FROM `sg_article` where `status`=0 and del_flag=0 and create_by=#{userId};
     </select>
 </mapper>
