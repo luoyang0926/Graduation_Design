@@ -32,4 +32,10 @@ public interface ArticleService extends IService<Article> {
     ResponseResult getMyArticleTotal(HttpServletRequest request);
 
     ResponseResult getTotalView(HttpServletRequest request);
+
+    ResponseResult getMyArticleList(Integer pageNum, Integer pageSize, Long categoryId,Long uid);
+
+     Object getArticleBySearch(String search);
+
+    ResponseResult updateArticle(AddArticleDto article);
 }

@@ -5,10 +5,10 @@ import com.xy.blog.service.RoleService;
 import com.xy.blog.utils.ResponseResult;
 import com.xy.blog.vo.AddRoleDto;
 import com.xy.blog.vo.ChangeStatusVo;
-import com.xy.blog.vo.TagListDto;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/system/role")
@@ -43,6 +43,11 @@ public class RoleController {
     @PutMapping("/changeStatus")
     public ResponseResult changeStatus(@RequestBody ChangeStatusVo changeStatusVo) {
         roleService.changeStatus(changeStatusVo);
+        return ResponseResult.okResult();
+    }
+    @DeleteMapping("/{ids}")
+    public ResponseResult DeleteRole(@PathVariable("ids") List<Long> ids) {
+        roleService.removeByIds(ids);
         return ResponseResult.okResult();
     }
 }

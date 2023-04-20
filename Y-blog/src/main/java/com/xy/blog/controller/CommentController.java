@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -43,5 +44,11 @@ public class CommentController {
     )
     public ResponseResult linkCommentList(Integer pageNum,Integer pageSize){
         return commentService.getCommentList(SystemConstants.LINK_COMMENT,pageNum,pageSize,null);
+    }
+
+    @DeleteMapping("/deleteMyComment/{id}")
+    public ResponseResult deleteMyComment(@PathVariable("id") Long id) {
+        commentService.deleteMyComment(id);
+        return ResponseResult.okResult();
     }
 }

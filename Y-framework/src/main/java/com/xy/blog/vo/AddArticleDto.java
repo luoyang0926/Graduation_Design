@@ -2,6 +2,8 @@ package com.xy.blog.vo;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.xy.blog.entity.ArticleTag;
+import com.xy.blog.entity.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

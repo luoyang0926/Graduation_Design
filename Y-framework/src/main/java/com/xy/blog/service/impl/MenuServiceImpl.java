@@ -57,7 +57,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
 
     @Override
     public List<Menu> selectRouterMenuTreeByUserId(Long userId) {
-
         //判断是否是管理员
         //   MenuMapper menuMapper = this.getBaseMapper();
         //如果是 获取所有符合要求的Menu

@@ -42,16 +42,16 @@ public class SendMailServiceImpl extends ServiceImpl<SysUserMapper, SysUser> imp
         queryWrapper.eq(SysUser::getEmail, email);
         queryWrapper.eq(SysUser::getStatus, 0);
         SysUser sysUser = sysUserMapper.selectOne(queryWrapper);
-        sysUser.setEmail(email);
-        System.out.println(".............................."+sysUser);
-        sysUserMapper.updateById(sysUser);
-        String password = "qwer1234";
+       // sysUser.setEmail(email);
+       // System.out.println(".............................."+sysUser);
+       // sysUserMapper.updateById(sysUser);
+        String username = "qwer1234";
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(sysUser.getUserName(), password);
+                new UsernamePasswordAuthenticationToken(username, sysUser.getPassword());
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         //判断是否认证通过
         if (Objects.isNull(authenticate)) {
-            throw new RuntimeException("用户名或密码错误");
+            throw new RuntimeException("邮箱地址错误");
         }
         //获取userid,生成token
         LoginUser user=(LoginUser) authenticate.getPrincipal();

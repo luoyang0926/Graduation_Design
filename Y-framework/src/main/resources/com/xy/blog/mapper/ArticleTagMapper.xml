@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xy.blog.mapper.ArticleTagMapper">
+
+    <select id="selectTagId"  resultType="java.lang.Long">
+        SELECT tag_id
+        FROM `sg_article_tag`
+        where article_id = #{id};
+
+    </select>
+    <insert id="insertTag" >
+        insert into sg_article_tag(article_id, tag_id)
+        values (#{articleId}, #{tagId});
+    </insert>
+
+    <delete id="deleteByAid">
+        delete from sg_article_tag where article_id=#{id}
+    </delete>
+</mapper>

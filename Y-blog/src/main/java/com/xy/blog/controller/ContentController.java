@@ -37,8 +37,8 @@ public class ContentController {
     }
 
     @PutMapping("/article")
-    public ResponseResult update(@RequestBody Article article){
-        articleService.updateById(article);
+    public ResponseResult update(@RequestBody AddArticleDto article){
+        articleService.updateArticle(article);
         return ResponseResult.okResult();
     }
 

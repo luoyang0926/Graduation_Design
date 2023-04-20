@@ -19,4 +19,8 @@
         where article_id=#{articleId} and del_flag=0;
 
     </select>
+
+    <delete id="deleteError">
+        DELETE from sg_comment where create_by=-1;
+    </delete>
 </mapper>

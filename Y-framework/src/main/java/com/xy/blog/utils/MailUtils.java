@@ -1,8 +1,8 @@
 package com.xy.blog.utils;
 
-import com.sun.javaws.jnl.RContentDesc;
+
 import com.sun.mail.util.MailSSLSocketFactory;
-import org.junit.jupiter.api.Test;
+
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -10,7 +10,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Random;

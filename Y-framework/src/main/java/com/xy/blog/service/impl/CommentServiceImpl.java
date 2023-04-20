@@ -19,6 +19,7 @@ import io.swagger.models.auth.In;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -49,6 +50,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         queryWrapper.eq(SystemConstants.ARTICLE_COMMENT.equals(commentType),Comment::getArticleId, articleId);
 
         queryWrapper.eq(Comment::getRootId, -1);
+
         //评论类型
         queryWrapper.eq(Comment::getType,commentType);
         queryWrapper.orderByDesc(Comment::getCreateTime);
@@ -119,6 +121,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
+    @Transactional
     public ResponseResult addComment(Comment comment) {
         //评论不能为空
         if (!StringUtils.hasText(comment.getContent())) {
@@ -130,7 +133,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         Comment comment1 = commentMapper.selectOne(queryWrapper);
         String createBy= Long.toString(comment1.getCreateBy());
         if (createBy.equals("-1")) {
-            commentMapper.delete(queryWrapper);
+            commentMapper.deleteError();
             return ResponseResult.errorResult(AppHttpCodeEnum.NEED_LOGIN);
         }
 
@@ -138,8 +141,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         return ResponseResult.okResult();
     }
 
-
-
+    @Override
+    public ResponseResult deleteMyComment(Long id) {
+        commentMapper.deleteById(id);
+        return ResponseResult.okResult();
+    }
 
 
 }

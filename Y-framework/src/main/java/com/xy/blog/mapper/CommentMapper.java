@@ -21,5 +21,7 @@ public interface CommentMapper extends BaseMapper<Comment> {
     List<Comment> commentByArticleId(@Param("article_id") Long articleId,@Param("pageNum") Integer pageNum,@Param("pageSize") Integer pageSize );
 
     Long selectCommentCount(Long articleId);
+
+    void deleteError();
 }
 

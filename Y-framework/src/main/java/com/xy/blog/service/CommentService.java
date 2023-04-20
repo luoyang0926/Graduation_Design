@@ -18,5 +18,6 @@ public interface CommentService extends IService<Comment> {
     ResponseResult addComment(Comment comment);
 
 
+    ResponseResult deleteMyComment(Long id);
 }
 

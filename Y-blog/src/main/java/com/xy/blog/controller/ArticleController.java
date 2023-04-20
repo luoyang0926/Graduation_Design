@@ -2,6 +2,7 @@ package com.xy.blog.controller;
 
 import com.xy.blog.service.ArticleService;
 import com.xy.blog.utils.ResponseResult;
+import com.xy.blog.vo.ArticleParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,6 +54,19 @@ public class ArticleController {
     @GetMapping("/getTotalView")
     public ResponseResult getTotalView(HttpServletRequest request) {
         return articleService.getTotalView(request);
+
+    }
+
+    @GetMapping("/myArticleList")
+    public ResponseResult getMyArticleList(Integer pageNum, Integer pageSize, Long categoryId,Long uid) {
+     return    articleService.getMyArticleList(pageNum, pageSize, categoryId,uid);
+    }
+
+    @PostMapping("/search")
+    public Object search(@RequestBody ArticleParam articleParam) {
+        //搜索接口
+        String search = articleParam.getSearch();
+        return  articleService.getArticleBySearch(search);
 
     }
 }
