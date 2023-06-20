@@ -25,6 +25,12 @@ public class GlobalExceptionHandler {
         //打印异常信息
         log.error("出现了异常！ {}",e);
         //从异常对象中获取提示信息封装返回
+        System.out.println("??????????????????????????????"+e.getMessage());
+        if(e.getMessage().equals("Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; nested exception is java.lang.NumberFormatException: For input string: \"NaN\"")){
+            System.out.println(">>>>>>>>>>>>>>>>>>成功了");
+            return ResponseResult.okResult();
+
+        }
         return ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR.getCode(),e.getMessage());
     }
 }

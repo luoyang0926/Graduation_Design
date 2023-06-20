@@ -13,10 +13,17 @@
     </select>
 
 
-    <select id="selectCommentCount" resultType="java.lang.Long">
+    <select id="selectCommentCount"  resultType="java.lang.Integer">
         select count(*)
         from sg_comment
-        where article_id=#{articleId} and del_flag=0;
+        where article_id=#{articleId} and del_flag=0 and type=0;
+
+    </select>
+
+    <select id="selectLinkCommentCount" resultType="java.lang.Integer">
+        select count(*)
+        from sg_comment
+        where type =1 and del_flag=0;
 
     </select>
 

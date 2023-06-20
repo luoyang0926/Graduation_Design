@@ -20,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 import java.util.Objects;
 
@@ -42,20 +43,20 @@ public class SendMailServiceImpl extends ServiceImpl<SysUserMapper, SysUser> imp
         queryWrapper.eq(SysUser::getEmail, email);
         queryWrapper.eq(SysUser::getStatus, 0);
         SysUser sysUser = sysUserMapper.selectOne(queryWrapper);
-       // sysUser.setEmail(email);
-       // System.out.println(".............................."+sysUser);
-       // sysUserMapper.updateById(sysUser);
-        String username = "qwer1234";
+
+
+      String password = "qwer1234";
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(username, sysUser.getPassword());
+                new UsernamePasswordAuthenticationToken(sysUser.getUserName(), password);
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         //判断是否认证通过
-        if (Objects.isNull(authenticate)) {
+     /*   if (Objects.isNull(authenticate)) {
             throw new RuntimeException("邮箱地址错误");
-        }
+        }*/
         //获取userid,生成token
         LoginUser user=(LoginUser) authenticate.getPrincipal();
         String id = user.getSysUser().getId().toString();
+        //String id = user.getSysUser().getId().toString();
         String jwt = JwtUtil.createJWT(id);
         //把用户信息存入redis
         redisCache.setCacheObject("BlogLogin:"+id,user);
@@ -63,7 +64,7 @@ public class SendMailServiceImpl extends ServiceImpl<SysUserMapper, SysUser> imp
         //System.out.println("=================>"+ SecurityUtils.getLoginUser());
 
         //把token和userInfo封装起来 返回
-        Long articleCount = articleMapper.getArticleCount();
+        Integer articleCount = articleMapper.getArticleCount();
         UserInfoVo userInfoVo = BeanCopyUtils.copyBean(user.getSysUser(), UserInfoVo.class);
         BlogUserLoginVo vo = new BlogUserLoginVo(jwt, userInfoVo,articleCount);
         return ResponseResult.okResult(vo);

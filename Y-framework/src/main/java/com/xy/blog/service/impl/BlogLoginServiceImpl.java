@@ -34,6 +34,7 @@ public class BlogLoginServiceImpl implements BlogLoginService {
     public ResponseResult   login(LoginUserVo userVo) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userVo.getUsername(), userVo.getPassword());
+
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         //判断是否认证通过
         if (Objects.isNull(authenticate)) {
@@ -44,13 +45,16 @@ public class BlogLoginServiceImpl implements BlogLoginService {
         LoginUser user=(LoginUser) authenticate.getPrincipal();
         String id = user.getSysUser().getId().toString();
         String jwt = JwtUtil.createJWT(id);
+        System.out.println("?????????????????"+jwt);
+       // eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzOWFlOWI1OWE1ZGQ0YjEwOWU2YzJhYzJmOGFjODIwZCIsInN1YiI6IjEiLCJpc3MiOiJzZyIsImlhdCI6MTY4MjE1MTkwNCwiZXhwIjoxNjgyMjM4MzA0fQ.mfo0fgrgERISUMjwTeeeGtho-Vt0jtiK2BrWAXC66lw
+       // eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwN2ZmMDZjNDdmMGM0MzBlYTIwZGRhM2E3M2ZlYTM5MCIsInN1YiI6IjEiLCJpc3MiOiJzZyIsImlhdCI6MTY4MjE1MjEyMywiZXhwIjoxNjgyMjM4NTIzfQ.F-SZYHjXMdEsRCg3jkqyc3GgvBqofZZf12UNn59BsFc
         //把用户信息存入redis
         redisCache.setCacheObject("BlogLogin:"+id,user);
 
         //System.out.println("=================>"+ SecurityUtils.getLoginUser());
 
         //把token和userInfo封装起来 返回
-        Long articleCount = articleMapper.getArticleCount();
+        Integer articleCount = articleMapper.getArticleCount();
         UserInfoVo userInfoVo = BeanCopyUtils.copyBean(user.getSysUser(), UserInfoVo.class);
         BlogUserLoginVo vo = new BlogUserLoginVo(jwt, userInfoVo,articleCount);
         return ResponseResult.okResult(vo);

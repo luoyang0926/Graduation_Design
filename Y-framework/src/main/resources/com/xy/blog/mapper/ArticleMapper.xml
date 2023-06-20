@@ -11,7 +11,7 @@
 
     </update>
 
-    <select id="getArticleCount" resultType="java.lang.Long">
+    <select id="getArticleCount" resultType="java.lang.Integer">
         SELECT count(*)
         FROM `sg_article`
         where `status` = 0

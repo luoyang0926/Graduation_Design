@@ -10,7 +10,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
 
     void updateViewCount(Article article);
 
-    Long getArticleCount();
+    Integer getArticleCount();
 
     Integer getMyArticleTotal(String userId);
 

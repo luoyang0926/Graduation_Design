@@ -76,7 +76,7 @@ public class UploadServiceImpl implements UploadService {
                 DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
                 System.out.println(putRet.key);
                 System.out.println(putRet.hash);
-                return "http://rqiz2rnut.hb-bkt.clouddn.com/"+key;
+                return "http://ru2ttcbg9.hb-bkt.clouddn.com/"+key;
             } catch (QiniuException ex) {
                 Response r = ex.response;
                 System.err.println(r.toString());

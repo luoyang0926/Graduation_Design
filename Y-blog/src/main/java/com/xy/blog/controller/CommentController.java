@@ -43,7 +43,7 @@ public class CommentController {
     }
     )
     public ResponseResult linkCommentList(Integer pageNum,Integer pageSize){
-        return commentService.getCommentList(SystemConstants.LINK_COMMENT,pageNum,pageSize,null);
+        return commentService.getLinkCommentList(SystemConstants.LINK_COMMENT,pageNum,pageSize);
     }
 
     @DeleteMapping("/deleteMyComment/{id}")

@@ -24,6 +24,6 @@ mybatis-plus:
       logic-not-delete-value: 0
       id-type: auto
 oss:
-  accessKey: RAU8QOi-N3RFCXmYPAiSi1gf6HYunYdQtLOMQrfW
-  secretKey: 6UKhFX5CeT09Utbd085PUiyO2toHmESReoTenoh0
-  bucket: wscurry
+  accessKey: l2rRx0ADvH_Fcacc5Lo_A1ZA7QzhjqbRXhlT15EM
+  secretKey: NvnJDgCooS9bqJohoNg18J3C_VNfSdQc_L2ipcDy
+  bucket: gsw2023

@@ -11,5 +11,5 @@ public class BlogUserLoginVo {
 
     private String token;
     private UserInfoVo userInfo;
-    private Long  articleTotal;
+    private Integer  articleTotal;
 }

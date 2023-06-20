@@ -19,5 +19,7 @@ public interface CommentService extends IService<Comment> {
 
 
     ResponseResult deleteMyComment(Long id);
+
+    ResponseResult getLinkCommentList(String linkComment, Integer pageNum, Integer pageSize);
 }
 
